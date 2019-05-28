@@ -134,6 +134,8 @@ public class TrazeGUIClient extends BasicGame {
             parseKeyInput("E");
         } else if (container.getInput().isKeyPressed(Input.KEY_W)) {
             parseKeyInput("N");
+        } else if (container.getInput().isKeyPressed(Input.KEY_R)) {
+            TrazeClient.respawn();
         }
     }
 

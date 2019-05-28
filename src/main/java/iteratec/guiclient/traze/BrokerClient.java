@@ -8,4 +8,6 @@ public interface BrokerClient {
     void join();
 
     int getInstanceId();
+
+    String getClientId();
 }

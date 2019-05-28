@@ -22,12 +22,17 @@ public class TrazeClient {
     private static int myPlayerId;
     private static ObjectMapper objectMapper = new ObjectMapper();
     static float time;
-    // TODO: Eigene Implementierung verwenden
-    private static BrokerClient brokerClient;
+    private static BrokerClient brokerClient = new BrokerClientImpl();
 
     public static void main(String[] args) throws SlickException {
         brokerClient.init("tcp://traze.iteratec.de:1883");
         TrazeGUIClient.startClient();
+    }
+
+    static void respawn() {
+        if (!playerAlive()) {
+            brokerClient.join();
+        }
     }
 
     static void updateGrid(String gridString) {
