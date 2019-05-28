@@ -2,9 +2,9 @@ package iteratec.guiclient.traze;
 
 import iteratec.guiclient.traze.content.Bike;
 import iteratec.guiclient.traze.content.Player;
-import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 
 import java.awt.*;
@@ -37,7 +37,7 @@ public class TrazeGUIClient extends BasicGame {
         if (TrazeClient.grid != null) {
             for (int x = 0; x < TrazeClient.grid.getWidth(); x++) {
                 for (int y = 0; y < TrazeClient.grid.getHeight(); y++) {
-                    if(TrazeClient.grid.getSpawns() != null) {
+                    if (TrazeClient.grid.getSpawns() != null) {
                         for (Point c : TrazeClient.grid.getSpawns()) {
                             if (c.getX() == x && c.getY() == y) {
                                 g.setColor(new Color(255, 255, 255, 0.85f));
@@ -81,7 +81,7 @@ public class TrazeGUIClient extends BasicGame {
 
     }
 
-    private void renderTime(Graphics g){
+    private void renderTime(Graphics g) {
         g.setColor(Color.white);
         g.drawString("Time alive: " + (int) TrazeClient.time / 1000 + " sec", 10, 30);
     }
@@ -99,8 +99,6 @@ public class TrazeGUIClient extends BasicGame {
 
     @Override
     public void init(GameContainer container) throws SlickException {
-        // TODO Auto-generated method stub
-
     }
 
     private static Color hex2Rgb(String colorStr) {
@@ -124,7 +122,7 @@ public class TrazeGUIClient extends BasicGame {
 
     @Override
     public void update(GameContainer container, int delta) throws SlickException {
-        if(gameHasBeenStarted) {
+        if (gameHasBeenStarted) {
             TrazeClient.time += delta;
         }
 
@@ -142,7 +140,7 @@ public class TrazeGUIClient extends BasicGame {
     private void parseKeyInput(String key) {
         TrazeClient.my_current_course = Brain.calculateNextDirection(key);
         TrazeClient.buildSteerMessage();
-        if(!gameHasBeenStarted){
+        if (!gameHasBeenStarted) {
             gameHasBeenStarted = true;
         }
     }

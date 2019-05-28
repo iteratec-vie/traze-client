@@ -1,9 +1,9 @@
 package iteratec.guiclient.traze;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import iteratec.guiclient.traze.content.Player;
 import iteratec.guiclient.traze.content.Bike;
 import iteratec.guiclient.traze.content.Grid;
+import iteratec.guiclient.traze.content.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.newdawn.slick.SlickException;
@@ -21,10 +21,12 @@ public class TrazeClient {
     private static String myPlayerToken;
     private static int myPlayerId;
     private static ObjectMapper objectMapper = new ObjectMapper();
-    public static float time;
+    static float time;
+    // TODO: Eigene Implementierung verwenden
+    private static BrokerClient brokerClient;
 
     public static void main(String[] args) throws SlickException {
-        new BrokerClient();
+        brokerClient.init("tcp://traze.iteratec.de:1883");
         TrazeGUIClient.startClient();
     }
 
@@ -93,8 +95,6 @@ public class TrazeClient {
     static void updateAllPlayers(String playersString) {
         try {
             players = objectMapper.readValue(playersString, Player[].class);
-            if (!playerAlive())
-                BrokerClient.join();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,7 +105,7 @@ public class TrazeClient {
             if (player.getId() == myPlayerId)
                 return true;
         }
-    	time = 0;
+        time = 0;
         return false;
     }
 
@@ -128,8 +128,8 @@ public class TrazeClient {
     static void buildSteerMessage() {
         if (myPlayerToken != null && my_current_course != null) {
             String messageString = " {\"course\":\"" + my_current_course + "\", \"playerToken\": \"" + myPlayerToken + "\" }";
-            String topic = "traze/1/" + myPlayerId + "/steer";
-            BrokerClient.publishSteerMessage(messageString, topic);
+            String topic = "traze/" + brokerClient.getInstanceId() + "/" + myPlayerId + "/steer";
+            brokerClient.publishMessage(topic, messageString);
         }
     }
 }
