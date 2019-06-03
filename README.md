@@ -55,7 +55,21 @@ https://traze.iteratec.de/
 
 ## Cheatsheet
 
-Dokumentation des MqttCallbacks:
+Die Klasse MqttClient wird verwendet, um eine Verbindung zum Broker zu erstellen, verschiedene Topics zu abbonnieren und Nachrichten an den Broker zu senden.
+```
+MqttClient client = new MqttClient(url, clientId)
+client.connect()
+client.subscribe(topic)
+client.publish(topic, mqttMessage)
+client.disconnect()
+```
+
+Um eine Client ID zu generieren, wird eine statische Methode vom MqttClient verwendet:
+```
+MqttClient.generateClientId()
+```
+
+Um Nachrichten zu empfangen und bearbeiten, muss die Schnittstelle MqttCallback implementiert werden. Dieses definiert folgende drei Methoden:
 ```
 public interface MqttCallback {
     void connectionLost(Throwable var1);
@@ -63,26 +77,10 @@ public interface MqttCallback {
     void deliveryComplete(IMqttDeliveryToken var1);
 }
 ```
-Um eine Client ID zu generieren:
+Die Implementierung der Schnittstelle muss auf dem MqttClient registriert sein.
 ```
-MqttClient.generateClientId()
-```
-Um einen MQTT Client zu initialisieren, muss eine Instanz erzeugt werden, indem die URL vom Broker und eine Client ID mitgegeben wird.
-```
-MqttClient client = new MqttClient(url, generatedClientId);
-```
-Jedem MQTT Client muss ein Callback mitgegeben werden, welcher eingehende Nachrichten bearbeitet.
-```
-client.setCallback(mqttCallback);
-```
-Verbindung zwischen Broker und Client herstellen.
-```
-client.connect();
-```
-Um ein Topic zu abonnieren muss folgende Funktion aufgerufen werden.
-```
-client.subscribe(topicAsString)
-```
+client.setCallback(mqttCallback)
+``` 
 Schickt eine Nachricht vom Client an den Broker.
 ```
 String message = "message";
