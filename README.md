@@ -9,7 +9,7 @@ Vorbedingungen:
 
 In den Run/Debug Configurations folgenden VM Parameter setzen:
 ```
--Djava.library.path=<Pfad zum Repo>/traze-java-gui/native/<OS>  
+-Djava.library.path=<Pfad zum Repo>/native/<OS>  
 ```
 
 Den Parameter OS durch das verwendete Betriebssystem ersetzen. Unterstützt werden:
